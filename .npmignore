@@ -1,0 +1,8 @@
+
+src
+test
+scripts
+
+/dest/scripts
+/dest/test
+/dest/types

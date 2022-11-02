@@ -1,0 +1,22 @@
+{
+  "name": "duckdl",
+  "version": "1.0.0",
+  "description": "duck data layer for components",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dbwodlf3/ddl.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dbwodlf3/ddl/issues"
+  },
+  "homepage": "https://github.com/dbwodlf3/ddl#readme",
+  "dependencies": {
+    "axios": "^1.1.3"
+  }
+}
