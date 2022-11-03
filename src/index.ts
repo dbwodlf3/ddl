@@ -1,8 +1,14 @@
-import axios from "axios";
-
 export type APIType = "query" | "" | string ;
 export type APIMethod = "post" | "get" | "" | string;
 
+/** INTERFACES ===============================================================*/
+interface Request {
+    method: string;
+    url: string;
+    data?: any;
+}
+
+/** ENV VARS */
 let DATA_ID = 0;
 
 const DATA:any = {};
@@ -14,7 +20,26 @@ function object_to_query_string(queryStringObj: any){
     }
   
     return temp.join("&");
-  }
+}
+
+function create_request(requestOption: Request): Promise<any>{
+    return new Promise((resolve, reject)=>{
+        const request = new XMLHttpRequest();
+        request.open(requestOption.method, requestOption.url);
+        request.send(requestOption.data);
+        request.onload = ()=>{
+            if(request.status >= 200 && request.status < 300) {
+                /** If Request Response is JSON then parse*/
+                resolve(JSON.parse(request.response));
+
+                /** Else do */
+            }
+            else {
+                reject(request.response);
+            }
+        }
+    });
+}
 
 export class DefaultLayer {
     static id = DATA_ID++;
@@ -37,9 +62,10 @@ export class DefaultLayer {
                     });
                 }
                 else { 
-                    return axios.get(`${this.url}?${queries}`).then((api_result)=>{
-                        DATA[`${this.url}?${queries}`] = api_result.data;
-                        return api_result.data;
+                    const request_option = {method: "get", url: `${this.url}?${queries}`};
+                    return create_request(request_option).then((api_result)=>{
+                        DATA[`${this.url}?${queries}`] = api_result;
+                        return api_result;
                     });
                 }
             }
